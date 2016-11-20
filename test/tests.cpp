@@ -14,14 +14,14 @@
 
 TEST_CASE(TxtProtocol, InputOk)
 {
-    std::string line("id:2341|trader:jack|stock:msft|quantity:15|side:0|");
+    std::string line("id:3|trader:V3LTYQ0CB|stock:6NJKCI|quantity:5640|side:0|");
     Order* order = ParseOrder(line);
 
     ASSERT(order);
-    ASSERT(order->m_id == 2341);
-    ASSERT(order->m_trader == "jack");
-    ASSERT(order->m_stock == "msft");
-    ASSERT(order->m_qnt == 15);
+    ASSERT(order->m_id == 3);
+    ASSERT(order->m_trader == "V3LTYQ0CB");
+    ASSERT(order->m_stock == "6NJKCI");
+    ASSERT(order->m_qnt == 5640);
     ASSERT(order->m_side == BUY);
     SUCCEED();
 }

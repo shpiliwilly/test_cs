@@ -17,12 +17,13 @@ int main() {
     Notifier notif;
     Engine engine(2, notif);
 
-    std::cout << "starting the app" << std::endl;
+    std::cout << "Engine started." << std::endl;
+    std::cout << "Input order in the following format: \"id:123|trader:jack|stock:msft|quantity:15|side:0|\"" << std::endl;
+    std::cout << "Or press Ctrl+D to stop" << std::endl;
 
-    while (true) {
+    std::string currLine;
+    while (std::getline(std::cin, currLine)) {
         // read the next order from the std in and handle it
-        std::string currLine;
-        std::getline(std::cin, currLine);
         Order* order = ParseOrder(currLine);
         if (!order) {
             std::cerr << "invalid input, line is ignored" << std::endl;

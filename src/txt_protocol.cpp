@@ -32,7 +32,7 @@ bool CheckTagAndGetFieldData(const char* buff, unsigned buff_size, unsigned& off
     if (memcmp(curr_pos, tag, tag_len) != 0)
         return false;
 
-    if (bar_pos - colon_pos >= MAX_FIELD_LEN)
+    if (bar_pos - 1 - colon_pos >= MAX_FIELD_LEN)
         return false;
 
     memcpy(data_buff, colon_pos + 1, bar_pos - colon_pos - 1);
@@ -78,9 +78,9 @@ bool GetField(const char* buff, unsigned buff_size, unsigned& offset, const char
 
 Order* ParseOrder(const std::string& line) {
 
-    // Trader, stock, quantity, Side (Buy or Sell).
-    // id:2341|trader:vram|stock:msft|quantity:15|side:buy|
-    // id:1232|trader:vram|stock:gogl|quantity:15|side:sell|
+    // Id, Trader, stock, quantity, Side (Buy or Sell).
+    // id:2341|trader:jack|stock:msft|quantity:15|side:0|
+    // id:1232|trader:bobo|stock:gogl|quantity:15|side:1|
 
     unsigned id;
     std::string trader;
