@@ -1,25 +1,46 @@
 #include "engine.h"
 #include "order.h"
+#include "notifier.h"
 
-
-unsigned GetThreadId(const Order* order) {
-    // TODO
-    return 0;
-}
 
 Engine::Engine(unsigned num_threads, INotifier& notifier) 
     : m_notifier(notifier) 
+    , m_thr(std::thread(ThreadFuncS, this))
+    , m_queue(128)
+    , m_stopped(false)
 { }
 
-Engine::OrderList& Engine::FindOrders(const std::string& stock_name) {
-    return m_orders[0][stock_name];
+Engine::~Engine() {
+    m_queue.push(nullptr);
+    m_thr.join();
+}
+
+void Engine::PostOrder(Order* order) {
+     while (!m_queue.push(order))
+         ;
+}
+
+void Engine::ThreadFuncS(void* this_ptr) {
+    Engine* engine = static_cast<Engine*>(this_ptr);
+    while(!engine->m_stopped) {
+
+        Order* p = nullptr;
+        if(engine->m_queue.pop(p)) {
+            if(p) {
+                engine->HandleOrder(p);
+            } else {
+                engine->m_stopped = true;
+            }
+        } 
+
+    }
 }
 
 void Engine::HandleOrder(Order* order) {
-    if (!order) return;
-    //unsigned thr_id = GetThreadId(order->m_stock);
+    if (!order) 
+        return;
 
-    OrderList& orders = FindOrders(order->m_stock);
+    OrderList& orders = m_orders[order->m_stock];
     if (orders.empty()) {
         orders.push_back(order);
         return;
@@ -30,7 +51,7 @@ void Engine::HandleOrder(Order* order) {
             && it != orders.end() 
             && order->m_side != (*it)->m_side) 
     {
-        // fill
+        // match && fill
         unsigned fill_volume = std::min((*it)->m_qnt, order->m_qnt);
         (*it)->m_qnt -= fill_volume;
         order->m_qnt -= fill_volume;

@@ -8,6 +8,7 @@
 
 #include "../src/txt_protocol.h"
 #include "../src/engine.h"
+#include "../src/notifier.h"
 
 ///////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
@@ -164,8 +165,8 @@ TEST_CASE(Matching, Basic)
     Order* order_2 = ParseOrder("id:2|trader:bobo|stock:msft|quantity:15|side:1|");
     ASSERT(order_1);
     ASSERT(order_2);
-    engine.HandleOrder(order_1);
-    engine.HandleOrder(order_2);
+    engine.PostOrder(order_1);
+    engine.PostOrder(order_2);
 
     ASSERT(notifier.WaitForCalls());
     CallRecord call_1 = notifier.GetNextCallEntry();
@@ -196,8 +197,8 @@ TEST_CASE(Matching, NoMatch)
     Order* order_2 = ParseOrder("id:2|trader:bobo|stock:aasd|quantity:15|side:1|");
     ASSERT(order_1);
     ASSERT(order_2);
-    engine.HandleOrder(order_1);
-    engine.HandleOrder(order_2);
+    engine.PostOrder(order_1);
+    engine.PostOrder(order_2);
 
     ASSERT(!notifier.WaitForCalls());
     SUCCEED();
@@ -230,11 +231,11 @@ TEST_CASE(Matching, ManyPartialFills)
     Order* order_4 = ParseOrder("id:4|trader:F|stock:zzzz|quantity:100|side:1|");
     Order* order_5 = ParseOrder("id:5|trader:Q|stock:msft|quantity:100|side:1|");
     ASSERT(order_1 && order_2 && order_3 && order_4 && order_5);
-    engine.HandleOrder(order_1);
-    engine.HandleOrder(order_2);
-    engine.HandleOrder(order_3);
-    engine.HandleOrder(order_4);
-    engine.HandleOrder(order_5);
+    engine.PostOrder(order_1);
+    engine.PostOrder(order_2);
+    engine.PostOrder(order_3);
+    engine.PostOrder(order_4);
+    engine.PostOrder(order_5);
 
     ASSERT(notifier.WaitForCalls());
     CallRecord call_1 = notifier.GetNextCallEntry();
@@ -269,10 +270,10 @@ TEST_CASE(Matching, MultiMatch)
     Order* order_3 = ParseOrder("id:3|trader:Y|stock:msft|quantity:200|side:1|");
     Order* order_4 = ParseOrder("id:4|trader:Z|stock:msft|quantity:600|side:0|");
     ASSERT(order_1 && order_2 && order_3 && order_4);
-    engine.HandleOrder(order_1);
-    engine.HandleOrder(order_2);
-    engine.HandleOrder(order_3);
-    engine.HandleOrder(order_4);
+    engine.PostOrder(order_1);
+    engine.PostOrder(order_2);
+    engine.PostOrder(order_3);
+    engine.PostOrder(order_4);
 
     ASSERT(notifier.WaitForCalls());
     CallRecord call_1 = notifier.GetNextCallEntry();

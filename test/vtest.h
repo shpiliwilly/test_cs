@@ -26,7 +26,7 @@ namespace vtest {
         unsigned fail_count = 0;
         for(auto& suite : test_suites) {
             auto& tests = suite.second;
-            std::cout << std::endl << "[-----------------] " << tests.size() << " tests from " << suite.first << std::endl;
+            std::cout << std::endl << "[-----------------] " << tests.size() << " tests from '" << suite.first << "' suite" << std::endl;
 
             for(auto& test : tests) {
                 std::cout << "[  RUN            ] " << suite.first << "." << test->GetName() << std::endl;

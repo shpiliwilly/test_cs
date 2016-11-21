@@ -32,7 +32,7 @@ def GenerateRandomOrder(id, traders, stocks):
 def main():
     trader_count = 1000
     stocks_count = 100
-    orders_count = 10000000
+    orders_count = 1000000
 
     traders = GenerateStrings(trader_count, 9)
     stocks = GenerateStrings(stocks_count, 6)
