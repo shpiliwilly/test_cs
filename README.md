@@ -9,8 +9,8 @@ $> cmake ..
 $> make
 ```
 
-Binary with tests can found in 'your-path-to-project/build/test' directory.
-You can run the application and input the orders manually, or you can (should) 
+Binary with tests can be found in 'your-path-to-project/build/test' directory.
+You can run the application and input orders manually, or you can (should) 
 use generate_file.py (see in the root dir) script for generating test file with orders.
 
 Due to the nature of the problem parallelization is in fact useless, since matching is too 
