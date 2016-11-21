@@ -1,6 +1,6 @@
 # test_cs
 
-To build the project, you'll need cmake and boost libs installed:
+To build the project, you'll need cmake and boost (only lockfree is used) installed:
 
 ```
 $> mkdir build
