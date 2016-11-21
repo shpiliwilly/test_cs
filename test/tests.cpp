@@ -177,9 +177,36 @@ TEST_CASE(Matching, Basic)
 
 ///////////////////////////////////////////////////////////////////////////
 
-TEST_CASE(Matching, NoMatch)
+TEST_CASE(Matching, NoMatchSameSide)
 {
-    unsigned expected_notifications_count = 2;
+    unsigned expected_notifications_count = 1;
+
+    NotifierMock notifier(expected_notifications_count);
+    Engine engine(notifier);
+
+    // no match, different stocks
+    // Trader A puts buy order on stock S
+    // Trader B puts buy order on stock S
+    // Trader C puts buy order on stock S
+    // no notifications
+
+    Order* order_1 = ParseOrder("id:1|trader:A|stock:S|quantity:15|side:0|");
+    Order* order_2 = ParseOrder("id:2|trader:B|stock:S|quantity:20|side:0|");
+    Order* order_3 = ParseOrder("id:3|trader:C|stock:S|quantity:10|side:0|");
+    ASSERT(order_1 && order_2 && order_3);
+    engine.PostOrder(order_1);
+    engine.PostOrder(order_2);
+    engine.PostOrder(order_3);
+
+    ASSERT(!notifier.WaitForCalls());
+    SUCCEED();
+}
+
+///////////////////////////////////////////////////////////////////////////
+
+TEST_CASE(Matching, NoMatchDifferentStock)
+{
+    unsigned expected_notifications_count = 1;
 
     NotifierMock notifier(expected_notifications_count);
     Engine engine(notifier);
@@ -187,14 +214,19 @@ TEST_CASE(Matching, NoMatch)
     // no match, different stocks
     // Trader A puts buy order on stock S
     // Trader B puts sell order on stock Q
+    // Trader C puts buy order on stock X
+    // Trader D puts sell order on stock Y
     // no notifications
 
-    Order* order_1 = ParseOrder("id:1|trader:jack|stock:msft|quantity:15|side:0|");
-    Order* order_2 = ParseOrder("id:2|trader:bobo|stock:aasd|quantity:15|side:1|");
-    ASSERT(order_1);
-    ASSERT(order_2);
+    Order* order_1 = ParseOrder("id:1|trader:A|stock:S|quantity:15|side:0|");
+    Order* order_2 = ParseOrder("id:2|trader:B|stock:Q|quantity:15|side:1|");
+    Order* order_3 = ParseOrder("id:3|trader:C|stock:X|quantity:15|side:0|");
+    Order* order_4 = ParseOrder("id:4|trader:D|stock:Y|quantity:15|side:1|");
+    ASSERT(order_1 && order_2 && order_3 && order_4);
     engine.PostOrder(order_1);
     engine.PostOrder(order_2);
+    engine.PostOrder(order_3);
+    engine.PostOrder(order_4);
 
     ASSERT(!notifier.WaitForCalls());
     SUCCEED();
