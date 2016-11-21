@@ -1,11 +1,10 @@
 #include "engine.h"
 #include "order.h"
-#include "notifier.h"
 
 
-Engine::Engine(unsigned num_threads, INotifier& notifier) 
+Engine::Engine(INotifier& notifier) 
     : m_notifier(notifier) 
-    , m_thr(std::thread(ThreadFuncS, this))
+    , m_thr(std::thread(ThreadFunc, this))
     , m_queue(128)
     , m_stopped(false)
 { }
@@ -20,7 +19,7 @@ void Engine::PostOrder(Order* order) {
          ;
 }
 
-void Engine::ThreadFuncS(void* this_ptr) {
+void Engine::ThreadFunc(void* this_ptr) {
     Engine* engine = static_cast<Engine*>(this_ptr);
     while(!engine->m_stopped) {
 

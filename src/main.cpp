@@ -7,14 +7,11 @@
 #include "engine.h"
 #include "notifier.h"
 
-////////////////////////////////////////////////////////////////////////
 
 int main() {
 
-    unsigned num_cpu = std::thread::hardware_concurrency();
-
     Notifier notifier;
-    Engine engine(num_cpu, notifier);
+    Engine engine(notifier);
 
     std::cout << "Engine started." << std::endl;
     std::cout << "Input order in the following format: \"id:123|trader:jack|stock:msft|quantity:15|side:0|\"" << std::endl;

@@ -151,10 +151,8 @@ TEST_CASE(Matching, Basic)
 {
     unsigned expected_notifications_count = 2;
 
-    // TODO. ignored for now
-    unsigned num_threads = 2;
     NotifierMock notifier(expected_notifications_count);
-    Engine engine(num_threads, notifier);
+    Engine engine(notifier);
 
     // basic scenario:
     // Trader A places a buy order of 200 on stock S. 
@@ -183,10 +181,8 @@ TEST_CASE(Matching, NoMatch)
 {
     unsigned expected_notifications_count = 2;
 
-    // TODO. ignored for now
-    unsigned num_threads = 2;
     NotifierMock notifier(expected_notifications_count);
-    Engine engine(num_threads, notifier);
+    Engine engine(notifier);
 
     // no match, different stocks
     // Trader A puts buy order on stock S
@@ -210,10 +206,8 @@ TEST_CASE(Matching, ManyPartialFills)
 {
     unsigned expected_notifications_count = 4;
 
-    // TODO. ignored for now
-    unsigned num_threads = 2;
     NotifierMock notifier(expected_notifications_count);
-    Engine engine(num_threads, notifier);
+    Engine engine(notifier);
 
     // Trader C places a sell order of 300 on stock G. 
     // Trader D places a buy order of 200 on stock G. 
@@ -256,10 +250,8 @@ TEST_CASE(Matching, MultiMatch)
 {
     unsigned expected_notifications_count = 4;
 
-    // TODO. ignored for now
-    unsigned num_threads = 2;
     NotifierMock notifier(expected_notifications_count);
-    Engine engine(num_threads, notifier);
+    Engine engine(notifier);
 
     // Trader W, X and Y place sell order of 200 on stock H each. 
     // Trade Z place a buy order of 600 on stock H. 

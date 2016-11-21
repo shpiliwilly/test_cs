@@ -75,7 +75,6 @@ bool GetField(const char* buff, unsigned buff_size, unsigned& offset, const char
     }
 }
 
-
 Order* ParseOrder(const std::string& line) {
 
     // Id, Trader, stock, quantity, Side (Buy or Sell).
@@ -98,5 +97,4 @@ Order* ParseOrder(const std::string& line) {
         ? new Order(id, trader, stock, quantity, side)
         : nullptr;
 }
-
 
