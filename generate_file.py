@@ -30,14 +30,20 @@ def GenerateRandomOrder(id, traders, stocks):
 
 #########################################
 def main():
+
     trader_count = 1000
     stocks_count = 100
     orders_count = 1000000
 
+    argc = len(sys.argv)
+    if argc == 2:
+        orders_count = int(sys.argv[1])
+    elif argc > 2:
+        print 'invalid arguments'
+        return
+
     traders = GenerateStrings(trader_count, 9)
     stocks = GenerateStrings(stocks_count, 6)
-    print 'len(traders) = ' + str(len(traders))
-    print 'len(stocks) = ' + str(len(stocks))
 
     #
     f = open('orders.txt', 'w')
@@ -49,7 +55,5 @@ def main():
 
 #########################################
 
-# Standard boilerplate to call the main() function to begin
-# the program.
 if __name__ == '__main__':
     main()
