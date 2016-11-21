@@ -2,10 +2,12 @@
 
 To build the project, you'll need cmake and boost libs installed:
 
+```
 $> mkdir build
 $> cd build
 $> cmake ..
 $> make
+```
 
 Binary with tests can found in 'your-path-to-project/build/test' directory.
 You can run the application and input the orders manually, or you can (should) 
