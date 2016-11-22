@@ -1,6 +1,6 @@
 # test_cs
 
-To build the project, you'll need cmake and boost (only lockfree is used) installed:
+To build the project, you'll need cmake and boost (only lockfree lib is used) installed. Go to the projects root dir, and then do:
 
 ```
 $> mkdir build
@@ -9,7 +9,7 @@ $> cmake ..
 $> make
 ```
 
-Binary with tests can be found in 'your-path-to-project/build/test' directory.
+After the build you'll find the tests binary in 'your-path-to-project/build/test/' directory.
 You can run the application and input orders manually, or you can (should) 
 use generate_file.py (see in the root dir) script for generating test file with orders.
 
