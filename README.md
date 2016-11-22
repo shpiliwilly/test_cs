@@ -1,21 +1,16 @@
 # test_cs
 
-To build the project, you'll need cmake and boost (only lockfree lib is used) installed. Go to the projects root dir, and then do:
+To build the project, you'll need boost.lockfree lib. 
 
-```
-$> mkdir build
-$> cd build
-$> cmake ..
-$> make
-```
+After the build you'll find two binaries in the project's root dir - 'engine-exec' and 'tests-exec'.
 
-After the build you'll find the tests binary in 'your-path-to-project/build/test/' directory.
-You can run the application and input orders manually, or you can (should) 
+You can run the engine and input orders manually, or you can (should) 
 use generate_file.py (see in the root dir) script for generating test file with orders.
+E.g. if you want to run the engine with 1000000 orders you can do:
 
-Due to the nature of the problem parallelization is in fact useless, since matching is too 
-lightweight compared to std in/out operations.
-
-P.S. In case you don't use cmake please let me know, I'll add plain makefiles. 
+```
+$> ./generate_file.py 1000000
+$> time ./engine-exec < orders.txt > log.txt
+```
 
 Cheers!
