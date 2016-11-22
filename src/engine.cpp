@@ -1,43 +1,8 @@
 #include "engine.h"
 #include "order.h"
 
-
-Engine::Engine(INotifier& notifier) 
-    : m_notifier(notifier) 
-    , m_thr(std::thread(ThreadFunc, this))
-    , m_queue(128)
-    , m_stopped(false)
-{ }
-
-Engine::~Engine() {
-    m_queue.push(nullptr);
-    m_thr.join();
-}
-
-void Engine::PostOrder(Order* order) {
-     while (!m_queue.push(order))
-         ;
-}
-
-void Engine::ThreadFunc(void* this_ptr) {
-    Engine* engine = static_cast<Engine*>(this_ptr);
-    while(!engine->m_stopped) {
-
-        Order* p = nullptr;
-        if(engine->m_queue.pop(p)) {
-            if(p) {
-                engine->HandleOrder(p);
-            } else {
-                engine->m_stopped = true;
-            }
-        } 
-
-    }
-}
-
-void Engine::HandleOrder(Order* order) {
-    if (!order) 
-        return;
+void Engine::HandleItem(void* item) {
+    Order* order = static_cast<Order*>(item);
 
     OrderList& orders = m_orders[order->m_stock];
     if (orders.empty()) {
@@ -69,6 +34,5 @@ void Engine::HandleOrder(Order* order) {
         m_notifier.Notify(order->m_trader, order->m_id);
         delete order;
     }
-
 }
 

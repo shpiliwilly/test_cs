@@ -1,25 +1,30 @@
 #pragma once
 
-#include "notifier.h"
 #include <map>
 #include <list>
 #include <string>
+
+#include "notifier.h"
+#include "active.h"
 
 class Order;
 class INotifier;
 
 
-class Engine {
-    std::atomic_bool m_stopped;
-    boost::lockfree::queue<Order*> m_queue;
-    std::thread m_thr;
-
+class Engine : public Active {
 public:
 
-    Engine(INotifier& notifier);
-    ~Engine();
+    Engine(INotifier& notifier) 
+        : m_notifier(notifier) 
+    { }
 
-    void PostOrder(Order* order);
+    ~Engine() {
+        Stop();
+    }
+
+    void PostOrder(Order* order) {
+        PushItem(order);
+    }
 
 private:
 
@@ -30,7 +35,6 @@ private:
 
     INotifier& m_notifier;
 
-    static void ThreadFunc(void* this_ptr);
-    void HandleOrder(Order* order);
+    virtual void HandleItem(void* item);
 };
 
