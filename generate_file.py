@@ -45,13 +45,9 @@ def main():
     traders = GenerateStrings(trader_count, 9)
     stocks = GenerateStrings(stocks_count, 6)
 
-    #
-    f = open('orders.txt', 'w')
-
     for i in range(orders_count):
-        f.write(GenerateRandomOrder(i, traders, stocks) + '\n')
+        print GenerateRandomOrder(i, traders, stocks)
 
-    f.close()
 
 #########################################
 

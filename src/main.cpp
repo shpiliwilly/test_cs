@@ -22,7 +22,7 @@ int main() {
         // read the next order from the std in and handle it
         Order* order = ParseOrder(currLine);
         if (!order) {
-            std::cerr << "invalid input, line is ignored" << std::endl;
+            std::cerr << "invalid input, line is ignored: \"" << currLine << "\"" << std::endl;
         } else {
             engine.PostOrder(order);
         }
