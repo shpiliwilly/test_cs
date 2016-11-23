@@ -7,7 +7,7 @@ tests_CXX_SRCS += $(filter-out src/main.cpp, $(engine_CXX_SRCS))
 tests_CXX_OBJS := ${tests_CXX_SRCS:.cpp=.o}
 tests_OBJS := $(tests_CXX_OBJS)
 
-CPPFLAGS += -std=c++1y -pthread
+CPPFLAGS += -std=c++1y -pthread -O3
 
 .PHONY: all clean 
 
